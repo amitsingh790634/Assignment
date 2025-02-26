@@ -1,0 +1,70 @@
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+  push:
+    branches:
+      - main
+      - master
+      - develop
+
+name: "Build & Release"
+
+jobs:
+  build:
+    name: Build & Release
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'  # 🔹 Required for Android build
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.1'
+          channel: 'stable'
+          cache: false  # 🔹 Disable cache for a fresh install
+          architecture: arm64  # 🔹 Ensure correct architecture
+
+      - name: Clean & Reset Dependencies
+        run: |
+          flutter clean
+          rm -rf ~/.pub-cache
+          flutter pub get
+
+      - name: Build APK (Split per ABI)
+        run: flutter build apk --release --split-per-abi
+
+      - name: Build iOS App
+        run: flutter build ios --no-codesign
+
+      - name: Package iOS Build as IPA
+        run: |
+          cd build/ios/iphoneos
+          mkdir Payload
+          mv Runner.app Payload/
+          zip -r app.ipa Payload
+
+      - name: Upload APK & IPA as Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            build/app/outputs/apk/release/*
+            build/ios/iphoneos/app.ipa
+
+      - name: Push to Releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.ASSTOKEN }}  # 🔹 Ensure the secret exists in GitHub repository settings
+
