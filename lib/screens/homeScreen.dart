@@ -1,5 +1,6 @@
 import 'package:assignment/core/constants/allExport.dart';
 import 'package:assignment/screens/FooterScreen.dart';
+import 'package:assignment/screens/ProfileScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -279,46 +280,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: reviewers.length,
                 itemBuilder: (context, index) {
                   final reviewer = reviewers[index];
-                  return Padding(
-                    padding:
-                        const EdgeInsets.only(right: 12, left: 10, top: 20),
-                    child: Column(
-                      children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          alignment: Alignment.topLeft,
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: reviewer["isGold"]
-                                    ? Border.all(color: Colors.amber, width: 3)
-                                    : null,
-                                image: DecorationImage(
-                                  image: AssetImage(reviewer["image"]),
-                                  fit: BoxFit.cover,
+                  return GestureDetector(
+                    onTap: () {
+                      NavigationService.push(ProfileScreen(
+                        image: reviewer['image'],
+                        name: reviewer['name'],
+                      ));
+                    },
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(right: 12, left: 10, top: 20),
+                      child: Column(
+                        children: [
+                          Stack(
+                            clipBehavior: Clip.none,
+                            alignment: Alignment.topLeft,
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: reviewer["isGold"]
+                                      ? Border.all(
+                                          color: Colors.amber, width: 3)
+                                      : null,
+                                  image: DecorationImage(
+                                    image: AssetImage(reviewer["image"]),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            if (reviewer["isGold"])
-                              const Positioned(
-                                top: -15,
-                                left: -8,
-                                child: Icon(
-                                  Icons.emoji_events,
-                                  color: Colors.amber,
+                              if (reviewer["isGold"])
+                                const Positioned(
+                                  top: -15,
+                                  left: -8,
+                                  child: Icon(
+                                    Icons.emoji_events,
+                                    color: Colors.amber,
+                                  ),
                                 ),
-                              ),
-                          ],
-                        ),
-                        kHeightGap(5),
-                        TextWidget(
-                          text: reviewer["name"],
-                          fontSize: 14,
-                        ),
-                      ],
+                            ],
+                          ),
+                          kHeightGap(5),
+                          TextWidget(
+                            text: reviewer["name"],
+                            fontSize: 14,
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

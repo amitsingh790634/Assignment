@@ -27,5 +27,10 @@ class AppImages {
   static const kCat9 = "${baseUrlImages}cat9.png";
   static const kCat10 = "${baseUrlImages}cat10.png";
 
+  static const kAmd = "${baseUrlImages}amd.png";
+  static const kR1 = "${baseUrlImages}r1.png";
+  static const kR2 = "${baseUrlImages}r2.png";
+  static const kR3 = "${baseUrlImages}r3.png";
+
   //
 }
