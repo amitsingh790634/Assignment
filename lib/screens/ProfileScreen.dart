@@ -243,26 +243,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  const Text(
-                    "멀티 작업도 잘 되고 꽤 괜찮습니다. 저희 회사 고객님들에게도 추천 가능한 제품인 듯 합니다.",
-                    style: TextStyle(fontSize: 14),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        _tabText("가격 저렴해요"),
+                        kWidthGap(20),
+                        _tabText("CPU온도 고온"),
+                        kWidthGap(20),
+                        _tabText("서멀작업 가능해요"),
+                        kWidthGap(20),
+                        _tabText("게임 잘 돌아가요"),
+                        kWidthGap(20),
+                        _tabText("CPU온도 고온"),
+                        kWidthGap(20),
+                        _tabText("게임 잘 돌아가요"),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  const TextWidget(
-                    text: "3600에서 바꾸니 체감이 살짝 되네요. 버라이어티한 느낌까지는 아닙니다.",
-                    fontSize: 14,
+                  kHeightGap(10),
+
+                  Column(
+                    children: List.generate(
+                      5, // Adding multiple reviews for testing scrollability
+                      (index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _reviewItem(
+                          iconColor: index.isEven ? Colors.blue : Colors.grey,
+                          text: index.isEven
+                              ? "멀티 작업도 잘 되고 꽤 괜찮습니다. 저희 회사 고객님들에게도 추천 가능한 제품인 듯 합니다."
+                              : "3600에서 바꾸니 체감이 살짝 되네요. 버라이어티한 느낌 까지는 아닙니다.",
+                        ),
+                      ),
+                    ),
                   ),
+
                   const SizedBox(height: 10),
 
                   // Review Images
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(child: Image.asset(AppImages.kR1, height: 70)),
-                      const SizedBox(width: 5),
+                      kWidthGap(5),
                       Expanded(child: Image.asset(AppImages.kR2, height: 70)),
-                      const SizedBox(width: 5),
+                      kWidthGap(5),
                       Expanded(child: Image.asset(AppImages.kR3, height: 70)),
-                      const SizedBox(width: 5),
+                      kWidthGap(5),
                     ],
                   ),
                 ],
@@ -287,9 +315,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
+            kHeightGap(30),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _tabText(String text) {
+    return TextWidget(
+      text: text,
+      color: Colors.black,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
+  Widget _reviewItem({required Color iconColor, required String text}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(Icons.bolt, color: iconColor, size: 20), // Thunder Icon
+        kWidthGap(8),
+        Expanded(
+          child: TextWidget(
+            text: text,
+            fontWeight: FontWeight.w500,
+            color: Colors.black87,
+            fontSize: 12,
+          ),
+        ),
+      ],
     );
   }
 }
