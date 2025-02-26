@@ -7,6 +7,8 @@ File: README.md
 
 ## APK URL: https://drive.google.com/file/d/1uobeSrn2VDaXR-zsbBc12TkZhUu_s9Bw/view?usp=sharing
 
+## Resume: https://drive.google.com/file/d/1QzAyXXmyStci2k2B7dSuVHCeuJ2dnTcY/view?usp=sharing
+
 A new Flutter project.
 
 # 📱 Flutter Assignment Project
