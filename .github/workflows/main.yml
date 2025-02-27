@@ -1,3 +1,5 @@
+name: "Build & Release"
+
 on:
   pull_request:
     branches:
@@ -8,8 +10,6 @@ on:
       - main
       - master
       - develop
-
-name: "Build & Release"
 
 jobs:
   build:
@@ -66,5 +66,17 @@ jobs:
         with:
           artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
           tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.ASSTOKEN }}  # 🔹 Ensure the secret exists in GitHub repository settings
+          token: ${{ secrets.ASSTOKEN }}  # ✅ Uses GitHub default token
+          generateReleaseNotes: false
+          makeLatest: legacy
+          omitBody: false
+          omitBodyDuringUpdate: false
+          omitDraftDuringUpdate: false
+          omitName: false
+          omitNameDuringUpdate: false
+          omitPrereleaseDuringUpdate: false
+          removeArtifacts: false
+          replacesArtifacts: true
+          skipIfReleaseExists: false
+          updateOnlyUnreleased: false
 
